@@ -1,3 +1,17 @@
 spring:
   application:
     name: troutfarm-backend
+  profiles:
+    active: local
+  datasource:
+    url: database-url
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yml
+

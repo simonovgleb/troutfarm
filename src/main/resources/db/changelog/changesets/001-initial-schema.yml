@@ -1,0 +1,263 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-initial-schema
+      author: troutfarm
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  name: role
+                  type: VARCHAR(20)
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+
+        - createTable:
+            tableName: fish_batch
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: fish_type
+                  type: VARCHAR(100)
+              - column:
+                  name: arrival_date
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: initial_count
+                  type: INT
+              - column:
+                  name: average_weight_grams
+                  type: NUMERIC(5,2)
+              - column:
+                  name: current_count
+                  type: INT
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+
+        - createTable:
+            tableName: tank
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+              - column:
+                  name: capacity
+                  type: INT
+              - column:
+                  name: temperature
+                  type: NUMERIC(4,1)
+              - column:
+                  name: oxygen_level
+                  type: NUMERIC(4,1)
+              - column:
+                  name: batch_id
+                  type: UUID
+
+        - createTable:
+            tableName: feeding_log
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: batch_id
+                  type: UUID
+              - column:
+                  name: date_time
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: food_type
+                  type: VARCHAR(100)
+              - column:
+                  name: food_amount_grams
+                  type: NUMERIC(6,2)
+              - column:
+                  name: operator_id
+                  type: UUID
+
+        - createTable:
+            tableName: mortality_log
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: batch_id
+                  type: UUID
+              - column:
+                  name: date_time
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: count
+                  type: INT
+              - column:
+                  name: reason
+                  type: VARCHAR(255)
+              - column:
+                  name: operator_id
+                  type: UUID
+
+        - createTable:
+            tableName: transfer_log
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: from_tank_id
+                  type: UUID
+              - column:
+                  name: to_tank_id
+                  type: UUID
+              - column:
+                  name: batch_id
+                  type: UUID
+              - column:
+                  name: count
+                  type: INT
+              - column:
+                  name: date_time
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: operator_id
+                  type: UUID
+
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: assigned_to_id
+                  type: UUID
+              - column:
+                  name: created_by_id
+                  type: UUID
+              - column:
+                  name: due_date
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+
+        - addForeignKeyConstraint:
+            baseTableName: tank
+            baseColumnNames: batch_id
+            referencedTableName: fish_batch
+            referencedColumnNames: id
+            constraintName: fk_tank_batch
+
+        - addForeignKeyConstraint:
+            baseTableName: feeding_log
+            baseColumnNames: batch_id
+            referencedTableName: fish_batch
+            referencedColumnNames: id
+            constraintName: fk_feeding_batch
+
+        - addForeignKeyConstraint:
+            baseTableName: feeding_log
+            baseColumnNames: operator_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_feeding_user
+
+        - addForeignKeyConstraint:
+            baseTableName: mortality_log
+            baseColumnNames: batch_id
+            referencedTableName: fish_batch
+            referencedColumnNames: id
+            constraintName: fk_mortality_batch
+
+        - addForeignKeyConstraint:
+            baseTableName: mortality_log
+            baseColumnNames: operator_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_mortality_user
+
+        - addForeignKeyConstraint:
+            baseTableName: transfer_log
+            baseColumnNames: from_tank_id
+            referencedTableName: tank
+            referencedColumnNames: id
+            constraintName: fk_transfer_from_tank
+
+        - addForeignKeyConstraint:
+            baseTableName: transfer_log
+            baseColumnNames: to_tank_id
+            referencedTableName: tank
+            referencedColumnNames: id
+            constraintName: fk_transfer_to_tank
+
+        - addForeignKeyConstraint:
+            baseTableName: transfer_log
+            baseColumnNames: batch_id
+            referencedTableName: fish_batch
+            referencedColumnNames: id
+            constraintName: fk_transfer_batch
+
+        - addForeignKeyConstraint:
+            baseTableName: transfer_log
+            baseColumnNames: operator_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_transfer_user
+
+        - addForeignKeyConstraint:
+            baseTableName: task
+            baseColumnNames: assigned_to_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_task_assigned_to
+
+        - addForeignKeyConstraint:
+            baseTableName: task
+            baseColumnNames: created_by_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_task_created_by
