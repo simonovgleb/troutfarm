@@ -1,45 +1,22 @@
 package by.simonov.troutfarm.backend.service;
 
-import by.simonov.troutfarm.backend.dto.mapper.EntityMapper;
 import by.simonov.troutfarm.backend.dto.request.CreateFishBatchRequest;
 import by.simonov.troutfarm.backend.dto.response.FishBatchDto;
 import by.simonov.troutfarm.backend.entity.FishBatch;
-import by.simonov.troutfarm.backend.repository.FishBatchRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
-public class FishBatchService {
-    private final FishBatchRepository repository;
-    private final EntityMapper mapper;
+public interface FishBatchService {
+    List<FishBatchDto> findAll();
 
-    public List<FishBatchDto> findAll() {
-        return repository.findAll().stream().map(mapper::toDto).toList();
-    }
+    FishBatchDto findById(UUID id);
 
-    public FishBatchDto findById(UUID id) {
-        return repository.findById(id).map(mapper::toDto).orElseThrow();
-    }
+    FishBatch save(FishBatch batch);
 
-    public FishBatch save(FishBatch batch) {
-        return repository.save(batch);
-    }
+    UUID create(CreateFishBatchRequest request);
 
-    public UUID create(CreateFishBatchRequest request) {
-        return save(mapper.toEntity(request)).getId();
-    }
+    void delete(UUID id);
 
-    public void delete(UUID id) {
-        repository.deleteById(id);
-    }
-
-    public void update(UUID id, CreateFishBatchRequest request) {
-        FishBatch entity = repository.findById(id).orElseThrow();
-        mapper.update(request, entity);
-        save(entity);
-    }
+    void update(UUID id, CreateFishBatchRequest request);
 }
