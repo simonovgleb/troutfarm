@@ -1,32 +1,45 @@
 package by.simonov.troutfarm.backend.service;
 
+import by.simonov.troutfarm.backend.dto.mapper.EntityMapper;
+import by.simonov.troutfarm.backend.dto.request.CreateTransferLogRequest;
+import by.simonov.troutfarm.backend.dto.response.TransferLogDto;
 import by.simonov.troutfarm.backend.entity.TransferLog;
 import by.simonov.troutfarm.backend.repository.TransferLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class TransferLogService {
     private final TransferLogRepository repository;
+    private final EntityMapper mapper;
 
-    public List<TransferLog> findAll() {
-        return repository.findAll();
+    public List<TransferLogDto> findAll() {
+        return repository.findAll().stream().map(mapper::toDto).toList();
     }
 
-    public Optional<TransferLog> findById(UUID id) {
-        return repository.findById(id);
+    public TransferLogDto findById(UUID id) {
+        return repository.findById(id).map(mapper::toDto).orElseThrow();
     }
 
     public TransferLog save(TransferLog log) {
         return repository.save(log);
     }
 
+    public UUID create(CreateTransferLogRequest request) {
+        return save(mapper.toEntity(request)).getId();
+    }
+
     public void delete(UUID id) {
         repository.deleteById(id);
+    }
+
+    public void update(UUID id, CreateTransferLogRequest request) {
+        TransferLog entity = repository.findById(id).orElseThrow();
+        mapper.update(request, entity);
+        save(entity);
     }
 }
