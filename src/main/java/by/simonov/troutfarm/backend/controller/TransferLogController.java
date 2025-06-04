@@ -5,6 +5,7 @@ import by.simonov.troutfarm.backend.dto.response.TransferLogDto;
 import by.simonov.troutfarm.backend.service.TransferLogService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/transfers")
+@PreAuthorize("isAuthenticated()")
 public class TransferLogController {
 
     private final TransferLogService service;

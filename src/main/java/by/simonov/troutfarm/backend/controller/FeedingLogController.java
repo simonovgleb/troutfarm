@@ -5,6 +5,7 @@ import by.simonov.troutfarm.backend.dto.response.FeedingLogDto;
 import by.simonov.troutfarm.backend.service.FeedingLogService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/feedings")
+@PreAuthorize("isAuthenticated()")
 public class FeedingLogController {
 
     private final FeedingLogService service;

@@ -7,6 +7,8 @@ import by.simonov.troutfarm.backend.entity.User;
 import by.simonov.troutfarm.backend.repository.UserRepository;
 import by.simonov.troutfarm.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EntityMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> findAll() {
@@ -35,7 +38,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UUID create(CreateUserRequest request) {
-        return save(mapper.toEntity(request)).getId();
+        User user = mapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(request.password()));
+        return save(user).getId();
     }
 
     @Override
@@ -47,6 +52,9 @@ public class UserServiceImpl implements UserService {
     public void update(UUID id, CreateUserRequest request) {
         User entity = userRepository.findById(id).orElseThrow();
         mapper.update(request, entity);
+        if (StringUtils.isNotEmpty(request.password())) {
+            entity.setPassword(passwordEncoder.encode(request.password()));
+        }
         save(entity);
     }
 }

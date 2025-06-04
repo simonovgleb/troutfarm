@@ -33,6 +33,7 @@ public interface EntityMapper {
     @Mappings({
             @Mapping(target = "active", source = "isActive"),
             @Mapping(target = "id", ignore = true),
+            @Mapping(target = "password", ignore = true),
     })
     User toEntity(CreateUserRequest request);
 
@@ -95,6 +96,7 @@ public interface EntityMapper {
     @Mappings({
             @Mapping(target = "active", source = "isActive"),
             @Mapping(target = "id", ignore = true),
+            @Mapping(target = "password", ignore = true),
     })
     void update(CreateUserRequest request, @MappingTarget User user);
 

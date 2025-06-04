@@ -5,6 +5,7 @@ import by.simonov.troutfarm.backend.dto.response.FishBatchDto;
 import by.simonov.troutfarm.backend.service.FishBatchService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/fish-batches")
+@PreAuthorize("isAuthenticated()")
 public class FishBatchController {
 
     private final FishBatchService service;
