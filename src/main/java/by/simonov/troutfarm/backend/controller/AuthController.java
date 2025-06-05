@@ -1,7 +1,7 @@
 package by.simonov.troutfarm.backend.controller;
 
-import by.simonov.troutfarm.backend.dto.security.LoginRequest;
 import by.simonov.troutfarm.backend.dto.security.AuthUserDto;
+import by.simonov.troutfarm.backend.dto.security.LoginRequest;
 import by.simonov.troutfarm.backend.dto.security.LoginResponse;
 import by.simonov.troutfarm.backend.entity.security.UserPrincipal;
 import by.simonov.troutfarm.backend.util.JwtUtil;
