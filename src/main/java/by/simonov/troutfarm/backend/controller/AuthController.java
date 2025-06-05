@@ -34,6 +34,7 @@ public class AuthController {
         return ResponseEntity.ok(new AuthUserDto(
                 user.getId(),
                 user.getUsername(),
+                user.getName(),
                 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
         );
     }

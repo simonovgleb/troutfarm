@@ -16,6 +16,7 @@ public class UserPrincipal implements UserDetails {
 
     private final UUID id;
     private final String username;
+    private final String name;
     private final String password;
     private final Set<GrantedAuthority> authorities;
     private final boolean isActive;
@@ -24,6 +25,7 @@ public class UserPrincipal implements UserDetails {
         return new UserPrincipal(
                 user.getId(),
                 user.getEmail(),
+                user.getName(),
                 user.getPassword(),
                 Set.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())),
                 user.isActive()
