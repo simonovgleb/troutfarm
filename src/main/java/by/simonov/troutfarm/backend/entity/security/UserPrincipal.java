@@ -19,7 +19,7 @@ public class UserPrincipal implements UserDetails {
     private final String name;
     private final String password;
     private final Set<GrantedAuthority> authorities;
-    private final boolean isActive;
+    private final Boolean isActive;
 
     public static UserPrincipal fromUser(User user) {
         return new UserPrincipal(
