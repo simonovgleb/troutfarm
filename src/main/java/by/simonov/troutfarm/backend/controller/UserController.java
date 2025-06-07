@@ -1,5 +1,6 @@
 package by.simonov.troutfarm.backend.controller;
 
+import by.simonov.troutfarm.backend.dto.filter.UserFilter;
 import by.simonov.troutfarm.backend.dto.request.CreateUserRequest;
 import by.simonov.troutfarm.backend.dto.response.UserDto;
 import by.simonov.troutfarm.backend.service.UserService;
@@ -32,13 +33,13 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAll() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<UserDto>> getAll(@Valid UserFilter filter) {
+        return ResponseEntity.ok(service.findAll(filter));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(service.findById(id));
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PutMapping("/{id}")

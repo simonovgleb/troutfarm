@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
@@ -33,8 +34,8 @@ public class ApplicationExceptionHandler {
         ));
     }
 
-    @ExceptionHandler(BindException.class)
-    public ResponseEntity<ProblemDetail> bindException(BindException ex) {
+    @ExceptionHandler({BindException.class, HttpMessageNotReadableException.class})
+    public ResponseEntity<ProblemDetail> formatException(Exception ex) {
         return ResponseEntity.badRequest().body(ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST,
                 ex.getMessage()

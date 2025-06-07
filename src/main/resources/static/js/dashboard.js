@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const user = window.currentUser ?? JSON.parse(sessionStorage.getItem("user"));
 
-        if (user && user.authorities.includes("ROLE_ADMIN")) {
+        if (isAdmin()) {
           const usersLink = document.getElementById("users-link");
           if (usersLink) {
             usersLink.style.display = "block";

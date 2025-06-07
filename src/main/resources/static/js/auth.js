@@ -40,6 +40,16 @@ function setupLogout() {
   }
 }
 
+function isAdmin() {
+   const user = window.currentUser ?? JSON.parse(sessionStorage.getItem("user"));
+   return user && user.authorities.includes("ROLE_ADMIN");
+}
+
+function isOperator() {
+   const user = window.currentUser ?? JSON.parse(sessionStorage.getItem("user"));
+   return user && user.authorities.includes("ROLE_OPERATOR");
+}
+
 async function initAuth() {
     await checkAuthAndLoadUser();
     setupLogout();

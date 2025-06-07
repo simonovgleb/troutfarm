@@ -1,5 +1,6 @@
 package by.simonov.troutfarm.backend.service.impl;
 
+import by.simonov.troutfarm.backend.dto.filter.UserFilter;
 import by.simonov.troutfarm.backend.dto.mapper.EntityMapper;
 import by.simonov.troutfarm.backend.dto.request.CreateUserRequest;
 import by.simonov.troutfarm.backend.dto.response.UserDto;
@@ -22,13 +23,24 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public List<UserDto> findAll() {
-        return userRepository.findAll().stream().map(mapper::toDto).toList();
+    public List<UserDto> findAll(UserFilter filter) {
+        List<User> users;
+        if (filter.hasRole()) {
+            users = userRepository.findAllByRoleIn(filter.role());
+        } else {
+            users = userRepository.findAll();
+        }
+        return users.stream().map(mapper::toDto).toList();
     }
 
     @Override
-    public UserDto findById(UUID id) {
-        return userRepository.findById(id).map(mapper::toDto).orElseThrow();
+    public UserDto getById(UUID id) {
+        return mapper.toDto(findById(id));
+    }
+
+    @Override
+    public User findById(UUID id) {
+        return userRepository.findById(id).orElseThrow();
     }
 
     @Override

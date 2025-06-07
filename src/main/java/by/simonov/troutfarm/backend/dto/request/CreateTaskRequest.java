@@ -10,9 +10,8 @@ import java.util.UUID;
 public record CreateTaskRequest(
         @NotBlank String title,
         String description,
-        @NotNull UUID assignedToId,
-        @NotNull UUID createdById,
+        UUID assignedToId,
         @NotNull OffsetDateTime dueDate,
-        @NotNull TaskStatus status
+        TaskStatus status
 ) {
 }
