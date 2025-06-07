@@ -10,7 +10,9 @@ import java.util.UUID;
 public interface FishBatchService {
     List<FishBatchDto> findAll();
 
-    FishBatchDto findById(UUID id);
+    FishBatchDto getById(UUID id);
+
+    FishBatch findById(UUID id);
 
     FishBatch save(FishBatch batch);
 

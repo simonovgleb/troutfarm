@@ -24,8 +24,13 @@ public class FishBatchServiceImpl implements FishBatchService {
     }
 
     @Override
-    public FishBatchDto findById(UUID id) {
-        return repository.findById(id).map(mapper::toDto).orElseThrow();
+    public FishBatchDto getById(UUID id) {
+        return mapper.toDto(findById(id));
+    }
+
+    @Override
+    public FishBatch findById(UUID id) {
+        return repository.findById(id).orElseThrow();
     }
 
     @Override

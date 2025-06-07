@@ -24,5 +24,7 @@ public class FeedingLogDto {
     private FoodType foodType;
 
     private BigDecimal foodAmountGrams;
+
+    private UserDto operator;
 }
 

@@ -2,10 +2,12 @@ package by.simonov.troutfarm.backend.controller;
 
 import by.simonov.troutfarm.backend.dto.request.CreateFeedingLogRequest;
 import by.simonov.troutfarm.backend.dto.response.FeedingLogDto;
+import by.simonov.troutfarm.backend.entity.security.UserPrincipal;
 import by.simonov.troutfarm.backend.service.FeedingLogService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,13 +32,14 @@ public class FeedingLogController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_OPERATOR')")
     public ResponseEntity<UUID> create(@Valid @RequestBody CreateFeedingLogRequest request) {
         return ResponseEntity.ok(service.create(request));
     }
 
     @GetMapping
-    public ResponseEntity<List<FeedingLogDto>> getAll() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<FeedingLogDto>> getAll(Authentication authentication) {
+        return ResponseEntity.ok(service.findAll((UserPrincipal) authentication.getPrincipal()));
     }
 
     @GetMapping("/{id}")
@@ -45,12 +48,14 @@ public class FeedingLogController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable UUID id, @RequestBody @Valid CreateFeedingLogRequest request) {
         service.update(id, request);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();

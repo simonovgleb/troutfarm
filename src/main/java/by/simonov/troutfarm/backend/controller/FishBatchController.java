@@ -41,7 +41,7 @@ public class FishBatchController {
 
     @GetMapping("/{id}")
     public ResponseEntity<FishBatchDto> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(service.findById(id));
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PutMapping("/{id}")
