@@ -21,4 +21,6 @@ public class TankDto {
     private BigDecimal temperature;
 
     private BigDecimal oxygenLevel;
+
+    private FishBatchDto batch;
 }

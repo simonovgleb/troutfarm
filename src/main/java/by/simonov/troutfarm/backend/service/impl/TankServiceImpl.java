@@ -5,6 +5,7 @@ import by.simonov.troutfarm.backend.dto.request.CreateTankRequest;
 import by.simonov.troutfarm.backend.dto.response.TankDto;
 import by.simonov.troutfarm.backend.entity.Tank;
 import by.simonov.troutfarm.backend.repository.TankRepository;
+import by.simonov.troutfarm.backend.service.FishBatchService;
 import by.simonov.troutfarm.backend.service.TankService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.UUID;
 public class TankServiceImpl implements TankService {
     private final TankRepository repository;
     private final EntityMapper mapper;
+    private final FishBatchService batchService;
 
     @Override
     public List<TankDto> findAll() {
@@ -35,7 +37,13 @@ public class TankServiceImpl implements TankService {
 
     @Override
     public UUID create(CreateTankRequest request) {
-        return save(mapper.toEntity(request)).getId();
+        Tank entity = mapper.toEntity(request);
+
+        if (request.batchId() != null) {
+            entity.setBatch(batchService.findById(request.batchId()));
+        }
+
+        return save(entity).getId();
     }
 
     @Override
@@ -47,6 +55,15 @@ public class TankServiceImpl implements TankService {
     public void update(UUID id, CreateTankRequest request) {
         Tank entity = repository.findById(id).orElseThrow();
         mapper.update(request, entity);
+
+        if (request.batchId() != null) {
+            if (entity.getBatch() == null || !entity.getBatch().getId().equals(request.batchId())) {
+                entity.setBatch(batchService.findById(request.batchId()));
+            }
+        } else {
+            entity.setBatch(null);
+        }
+
         save(entity);
     }
 

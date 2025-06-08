@@ -2,6 +2,7 @@ package by.simonov.troutfarm.backend.filter.security;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,11 @@ public class ApplicationExceptionHandler {
         ));
     }
 
-    @ExceptionHandler({BindException.class, HttpMessageNotReadableException.class})
+    @ExceptionHandler({
+            BindException.class,
+            HttpMessageNotReadableException.class,
+            DataAccessException.class
+    })
     public ResponseEntity<ProblemDetail> formatException(Exception ex) {
         return ResponseEntity.badRequest().body(ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST,

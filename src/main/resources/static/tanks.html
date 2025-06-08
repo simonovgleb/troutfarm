@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Бассейны</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/dashboard.html">Ферма</a>
+        <div class="d-flex ms-auto">
+            <button id="logoutBtn" class="btn btn-light btn-sm">Выйти</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Управление бассейнами</h2>
+        <button id="createTankBtn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tankModal"
+                onclick="openCreateTankModal()">Добавить бассейн
+        </button>
+    </div>
+
+    <ul id="tankContainer" class="list-group"></ul>
+</div>
+
+<template id="tankTemplate">
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+            <div><strong class="tank-name"></strong></div>
+            <div>Объём: <span class="tank-capacity"></span> м³</div>
+            <div>Температура: <span class="tank-temperature"></span> °C</div>
+            <div>Уровень кислорода: <span class="tank-oxygen"></span> %</div>
+            <div>Партия: <span class="tank-batch"></span></div>
+        </div>
+        <div class="tank-id d-none"></div>
+        <div class="tank-actions text-nowrap">
+            <button class="btn btn-sm btn-outline-primary me-1" onclick="editTank(this)">✏️</button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteTank(this)">🗑️</button>
+        </div>
+    </li>
+</template>
+
+<div class="modal fade" id="tankModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="modal-content" id="tankForm">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tankModalLabel">Бассейн</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="tankId">
+                <div class="mb-3">
+                    <label for="tankName" class="form-label">Название</label>
+                    <input type="text" class="form-control" id="tankName" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tankCapacity" class="form-label">Объём (м³)</label>
+                    <input type="number" class="form-control" id="tankCapacity" min="0" step="0.1" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tankTemperature" class="form-label">Температура (°C)</label>
+                    <input type="number" class="form-control" id="tankTemperature" min="-100" max="100" step="0.5" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tankOxygen" class="form-label">Уровень кислорода (%)</label>
+                    <input type="number" class="form-control" id="tankOxygen" min="0" max="100" step="0.1" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="batchSelect" class="form-label">Партия</label>
+                    <select class="form-select" id="batchSelect">
+                        <option value="">-- Не выбрано --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button class="btn btn-primary" type="submit">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/util.js"></script>
+<script src="js/tanks.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

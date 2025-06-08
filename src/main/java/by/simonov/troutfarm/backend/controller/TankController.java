@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/tanks")
-@PreAuthorize("isAuthenticated()")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class TankController {
 
     private final TankService service;
