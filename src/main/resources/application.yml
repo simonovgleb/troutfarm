@@ -1,6 +1,6 @@
 spring:
   application:
-    name: troutfarm-backend
+    name: troutfarm-app
   profiles:
     active: local
   datasource:

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>by.simonov.troutfarm</groupId>
-	<artifactId>troutfarm-backend</artifactId>
+	<artifactId>troutfarm-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>troutfarm-backend</name>
+	<name>troutfarm-app</name>
 	<description>Trout farm app</description>
 	<url/>
 	<licenses>

@@ -13,7 +13,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   app:
-    image: troutfarm-backend:latest
+    image: troutfarm-app:latest
     container_name: troutfarm-app
     build:
       context: .
