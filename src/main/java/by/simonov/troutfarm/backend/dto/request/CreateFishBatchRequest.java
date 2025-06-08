@@ -1,6 +1,7 @@
 package by.simonov.troutfarm.backend.dto.request;
 
 import by.simonov.troutfarm.backend.entity.type.BatchStatus;
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -14,7 +15,7 @@ public record CreateFishBatchRequest(
         @NotBlank String fishType,
         @NotNull OffsetDateTime arrivalDate,
         @Positive int initialCount,
-        @Positive BigDecimal averageWeightGrams,
+        @Positive @DecimalMax("999.99") BigDecimal averageWeightGrams,
         @PositiveOrZero int currentCount,
         @NotNull BatchStatus status
 ) {

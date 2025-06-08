@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Партии рыбы</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/dashboard.html">Ферма</a>
+        <div class="d-flex ms-auto">
+            <button id="logoutBtn" class="btn btn-light btn-sm">Выйти</button>
+        </div>
+    </div>
+</nav>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Управление партиями рыбы</h2>
+        <button id="createBatchBtn" class="btn btn-success d-none" data-bs-toggle="modal" data-bs-target="#batchModal"
+                onclick="openCreateBatchModal()">Добавить партию
+        </button>
+    </div>
+
+    <div id="batchContainer" class="list-group"></div>
+
+    <template id="batchTemplate">
+        <li class="list-group-item">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <strong class="batch-name"></strong>
+                    <span class="badge bg-secondary batch-status"></span>
+                    <div class="text-muted small">
+                        <span class="batch-type"></span>, прибыло: <span class="batch-arrival"></span>
+                    </div>
+                    <div class="small">
+                        Средний вес: <span class="batch-weight"></span> г, Начальное количество: <span class="batch-initial"></span> шт.,
+                        Текущее количество: <span class="batch-current"></span> шт.
+                    </div>
+                </div>
+                <div class="batch-actions d-none">
+                    <button class="btn btn-sm btn-outline-primary me-1" onclick="editBatch(this)">✎</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteBatch(this)">🗑</button>
+                </div>
+                <span class="d-none batch-id"></span>
+            </div>
+        </li>
+    </template>
+</div>
+
+<div class="modal fade" id="batchModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="batchForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="batchModalLabel">Новая партия</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="batchId">
+                    <div class="mb-3">
+                        <label for="batchName" class="form-label">Название</label>
+                        <input type="text" id="batchName" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fishType" class="form-label">Вид рыбы</label>
+                        <input type="text" id="fishType" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="arrivalDate" class="form-label">Дата прибытия</label>
+                        <input type="datetime-local" id="arrivalDate" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="initialCount" class="form-label">Начальное количество</label>
+                        <input type="number" id="initialCount"  min="1" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="currentCount" class="form-label">Текущее количество</label>
+                        <input type="number" id="currentCount" min="1" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="avgWeight" class="form-label">Средний вес, г</label>
+                        <input type="number" step="0.1" min="0.1" max="999.99" id="avgWeight" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="batchStatus" class="form-label">Статус</label>
+                        <select id="batchStatus" class="form-select">
+                            <option value="ACTIVE">Активна</option>
+                            <option value="HARVESTED">Собрана</option>
+                            <option value="CLOSED">Закрыта</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/util.js"></script>
+<script src="js/batches.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

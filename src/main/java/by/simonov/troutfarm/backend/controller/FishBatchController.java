@@ -30,6 +30,7 @@ public class FishBatchController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<UUID> create(@Valid @RequestBody CreateFishBatchRequest request) {
         return ResponseEntity.ok(service.create(request));
     }
@@ -45,12 +46,14 @@ public class FishBatchController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable UUID id, @RequestBody @Valid CreateFishBatchRequest request) {
         service.update(id, request);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
