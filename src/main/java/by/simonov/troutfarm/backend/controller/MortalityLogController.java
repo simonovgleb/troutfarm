@@ -2,10 +2,12 @@ package by.simonov.troutfarm.backend.controller;
 
 import by.simonov.troutfarm.backend.dto.request.CreateMortalityLogRequest;
 import by.simonov.troutfarm.backend.dto.response.MortalityLogDto;
+import by.simonov.troutfarm.backend.entity.security.UserPrincipal;
 import by.simonov.troutfarm.backend.service.MortalityLogService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,13 +32,14 @@ public class MortalityLogController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_OPERATOR') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<UUID> create(@Valid @RequestBody CreateMortalityLogRequest request) {
         return ResponseEntity.ok(service.create(request));
     }
 
     @GetMapping
-    public ResponseEntity<List<MortalityLogDto>> getAll() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<MortalityLogDto>> getAll(Authentication authentication) {
+        return ResponseEntity.ok(service.findAll((UserPrincipal) authentication.getPrincipal()));
     }
 
     @GetMapping("/{id}")
@@ -45,11 +48,13 @@ public class MortalityLogController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable UUID id, @RequestBody @Valid CreateMortalityLogRequest request) {
         service.update(id, request);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
