@@ -10,7 +10,9 @@ import java.util.UUID;
 public interface TankService {
     List<TankDto> findAll();
 
-    TankDto findById(UUID id);
+    Tank findById(UUID id);
+
+    TankDto getById(UUID id);
 
     Tank save(Tank tank);
 

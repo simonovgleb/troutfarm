@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Перемещения рыбы</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/dashboard.html">Ферма</a>
+        <div class="d-flex ms-auto">
+            <button id="logoutBtn" class="btn btn-light btn-sm">Выйти</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Учёт перемещений</h2>
+        <button id="createTransferBtn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transferModal"
+                onclick="openCreateTransferModal()">Новое перемещение
+        </button>
+    </div>
+
+    <div class="list-group" id="transferContainer"></div>
+</div>
+
+<template id="transferTemplate">
+    <div class="list-group-item">
+        <div class="d-flex justify-content-between">
+            <div>
+                <div><strong>Дата:</strong> <span class="transfer-date"></span></div>
+                <div><strong>Из:</strong> <span class="transfer-from"></span></div>
+                <div><strong>В:</strong> <span class="transfer-to"></span></div>
+                <div><strong>Партия:</strong> <span class="transfer-batch"></span></div>
+                <div><strong>Количество:</strong> <span class="transfer-count"></span> шт.</div>
+                <div><strong>Оператор:</strong> <span class="transfer-user"></span></div>
+            </div>
+            <div class="transfer-actions mt-2 d-none">
+                <button class="btn btn-sm btn-outline-secondary me-2" onclick="editTransfer(this)">✏️</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteTransfer(this)">🗑️</button>
+            </div>
+        </div>
+        <div class="transfer-id d-none"></div>
+    </div>
+</template>
+
+<div class="modal fade" id="transferModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="transferForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transferModalLabel">Новое перемещение</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="transferId">
+                    <div class="mb-3">
+                        <label for="transferDate" class="form-label">Дата и время</label>
+                        <input type="datetime-local" id="transferDate" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fromTank" class="form-label">Из бассейна</label>
+                        <select id="fromTank" class="form-select" required>
+                            <option value="">-- Не выбрано --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="toTank" class="form-label">В бассейн</label>
+                        <select id="toTank" class="form-select" required>
+                            <option value="">-- Не выбрано --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="transferBatchSelect" class="form-label">Партия</label>
+                        <select id="transferBatchSelect" class="form-select" required>
+                            <option value="">-- Не выбрано --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="transferCount" class="form-label">Количество</label>
+                        <input type="number" id="transferCount" class="form-control" required min="1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="transferUserSelect" class="form-label">Оператор</label>
+                        <select id="transferUserSelect" class="form-select" required>
+                            <option value="">-- Не выбрано --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/util.js"></script>
+<script src="js/transfers.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

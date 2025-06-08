@@ -26,8 +26,13 @@ public class TankServiceImpl implements TankService {
     }
 
     @Override
-    public TankDto findById(UUID id) {
-        return repository.findById(id).map(mapper::toDto).orElseThrow();
+    public Tank findById(UUID id) {
+        return repository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public TankDto getById(UUID id) {
+        return mapper.toDto(findById(id));
     }
 
     @Override

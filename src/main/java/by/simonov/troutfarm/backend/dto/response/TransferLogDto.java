@@ -1,7 +1,5 @@
 package by.simonov.troutfarm.backend.dto.response;
 
-import by.simonov.troutfarm.backend.entity.FishBatch;
-import by.simonov.troutfarm.backend.entity.Tank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,13 +14,15 @@ public class TransferLogDto {
 
     private UUID id;
 
-    private Tank fromTank;
+    private TankDto fromTank;
 
-    private Tank toTank;
+    private TankDto toTank;
 
-    private FishBatch batch;
+    private FishBatchDto batch;
 
     private int count;
 
     private OffsetDateTime dateTime;
+
+    private UserDto operator;
 }

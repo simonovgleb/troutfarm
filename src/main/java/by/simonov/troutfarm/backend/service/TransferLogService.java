@@ -3,12 +3,13 @@ package by.simonov.troutfarm.backend.service;
 import by.simonov.troutfarm.backend.dto.request.CreateTransferLogRequest;
 import by.simonov.troutfarm.backend.dto.response.TransferLogDto;
 import by.simonov.troutfarm.backend.entity.TransferLog;
+import by.simonov.troutfarm.backend.entity.security.UserPrincipal;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface TransferLogService {
-    List<TransferLogDto> findAll();
+    List<TransferLogDto> findAll(UserPrincipal principal);
 
     TransferLogDto findById(UUID id);
 
