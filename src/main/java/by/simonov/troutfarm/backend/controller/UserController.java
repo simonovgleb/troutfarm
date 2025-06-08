@@ -3,6 +3,7 @@ package by.simonov.troutfarm.backend.controller;
 import by.simonov.troutfarm.backend.dto.filter.UserFilter;
 import by.simonov.troutfarm.backend.dto.request.CreateUserRequest;
 import by.simonov.troutfarm.backend.dto.response.UserDto;
+import by.simonov.troutfarm.backend.dto.response.UserInfoDto;
 import by.simonov.troutfarm.backend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-@PreAuthorize("isAuthenticated()")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
     private final UserService service;
 
@@ -33,12 +34,13 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<UserDto>> getAll(@Valid UserFilter filter) {
         return ResponseEntity.ok(service.findAll(filter));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getById(@PathVariable UUID id) {
+    public ResponseEntity<UserInfoDto> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.getById(id));
     }
 

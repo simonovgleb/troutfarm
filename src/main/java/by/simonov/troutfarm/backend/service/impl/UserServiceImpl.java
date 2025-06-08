@@ -4,6 +4,7 @@ import by.simonov.troutfarm.backend.dto.filter.UserFilter;
 import by.simonov.troutfarm.backend.dto.mapper.EntityMapper;
 import by.simonov.troutfarm.backend.dto.request.CreateUserRequest;
 import by.simonov.troutfarm.backend.dto.response.UserDto;
+import by.simonov.troutfarm.backend.dto.response.UserInfoDto;
 import by.simonov.troutfarm.backend.entity.User;
 import by.simonov.troutfarm.backend.repository.UserRepository;
 import by.simonov.troutfarm.backend.service.UserService;
@@ -34,8 +35,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getById(UUID id) {
-        return mapper.toDto(findById(id));
+    public UserInfoDto getById(UUID id) {
+        return mapper.toInfoDto(findById(id));
     }
 
     @Override

@@ -14,6 +14,7 @@ import by.simonov.troutfarm.backend.dto.response.TankDto;
 import by.simonov.troutfarm.backend.dto.response.TaskDto;
 import by.simonov.troutfarm.backend.dto.response.TransferLogDto;
 import by.simonov.troutfarm.backend.dto.response.UserDto;
+import by.simonov.troutfarm.backend.dto.response.UserInfoDto;
 import by.simonov.troutfarm.backend.entity.FeedingLog;
 import by.simonov.troutfarm.backend.entity.FishBatch;
 import by.simonov.troutfarm.backend.entity.MortalityLog;
@@ -79,6 +80,8 @@ public interface EntityMapper {
     FeedingLog toEntity(CreateFeedingLogRequest request);
 
     UserDto toDto(User user);
+
+    UserInfoDto toInfoDto(User user);
 
     TransferLogDto toDto(TransferLog transferLog);
 
