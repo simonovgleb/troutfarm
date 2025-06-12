@@ -14,6 +14,8 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @Hidden
 @ControllerAdvice(basePackages = {"by.simonov.troutfarm.backend.controller"})
 @Slf4j
@@ -45,6 +47,11 @@ public class ApplicationExceptionHandler {
                 HttpStatus.BAD_REQUEST,
                 ex.getMessage()
         ));
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ProblemDetail> noElement(NoSuchElementException ex) {
+        return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(Exception.class)
